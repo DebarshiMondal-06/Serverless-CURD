@@ -1,0 +1,31 @@
+service: CURD-APP
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ap-south-1
+  memorySize: 128
+
+functions:
+  getData:
+    handler: app.curdFunction
+    events: 
+      - http: 
+          path: /get
+          method: GET
+          cors: true
+      - http: 
+          path: /getOne/{id}
+          method: get
+          cors: true
+      - http: 
+          path: /create
+          method: POST
+          cors: 
+      - http: 
+          path: /delete/{id}
+          method: delete
+          cors: true
+      - http: 
+          path: /update/{id}
+          method: put
+          cors: true

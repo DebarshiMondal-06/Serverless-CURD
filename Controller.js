@@ -1,11 +1,29 @@
 const Serverless = require('./Model');
+const jwt = require('jsonwebtoken');
+
+const getToken = async (userID) => {
+  return jwt.sign({ userID }, process.env.SECRET, {
+    expiresIn: process.env.EXPIRES_JWT
+  });
+}
+
+const verifcation = async (token, secret) => {
+  return jwt.verify(token, secret);
+}
+
 
 exports.createData = async (req, res) => {
   try {
     const data = await Serverless.create(req.body);
+    const token = await getToken(data._id);
+    const cookieOptions = {
+      expires: new Date(Date.now() + 3600 * 1000),
+      httpOnly: true
+    };
+    res.cookie('loginjwt', token, cookieOptions);
     res.status(200).json({
       status: "Success",
-      result: data
+      U_token: token
     });
   } catch (error) {
     res.status(400).json({
@@ -65,6 +83,27 @@ exports.updateOne = async (req, res) => {
       result: 'Success',
       data: updatedData
     });
+  } catch (error) {
+    res.status(400).json({
+      error
+    });
+  }
+}
+
+exports.protect = async (req, res, next) => {
+  try {
+    let verifyToken;
+    if (req.cookies.loginjwt) {
+      verifyToken = req.cookies.loginjwt;
+    }
+    if (!verifyToken) {
+      return res.status(401).json({ message: '401 | Unauthorized' });
+    }
+    const decode = await verifcation(verifyToken, process.env.SECRET);
+    if (!decode) {
+      return res.status(400).json({ message: 'Login Failed! Try Again' });
+    }
+    next();
   } catch (error) {
     res.status(400).json({
       error

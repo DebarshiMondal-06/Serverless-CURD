@@ -24,11 +24,11 @@ app.use(express.json());
 
 
 app.post('/create', getData.createData);
+app.get('/getOne/:id', getData.getOneData);
 app.use(getData.protect);
 app.get('/get', getData.getData);
-app.get('/getOne/:id', getData.getOneData);
 app.put('/update/:id', getData.updateOne);
-app.delete('/delete/:id', getData.deleteOne);
+app.delete('/delete/:id', getData.deleteOne); 
 
 // const port = process.env.PORT_NO || 8000;
 // app.listen(port, () => {

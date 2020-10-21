@@ -23,10 +23,36 @@ exports.createData = async (req, res) => {
     res.cookie('loginjwt', token, cookieOptions);
     res.status(200).json({
       status: "Success",
-      U_token: token
+      U_token: token,
+      data
     });
   } catch (error) {
     res.status(400).json({
+      error
+    });
+  }
+}
+
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) return res.status(400).json({ message: 'Please provide email and password!' });
+    const loginUser = await Serverless.findOne({ email: email });
+    if (!loginUser || !await loginUser.passwordCompare(password, loginUser.password)) {
+      return res.status(401).json({ message: 'Incorrect email or Password!' });
+    }
+    const token1 = await getToken(loginUser._id);
+    const cookieOptions = {
+      expires: new Date(Date.now() + 3600 * 1000),
+      httpOnly: true
+    }
+    res.cookie('loginjwt', token1, cookieOptions);
+    res.status(200).json({
+      result: 'Success',
+      token1
+    });
+  } catch (error) {
+    res.status(401).json({
       error
     });
   }

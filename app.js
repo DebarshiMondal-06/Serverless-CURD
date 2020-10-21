@@ -24,8 +24,9 @@ app.use(express.json());
 
 
 app.post('/create', getData.createData);
-app.get('/getOne/:id', getData.getOneData);
+app.post('/login', getData.login);
 app.use(getData.protect);
+app.get('/getOne/:id', getData.getOneData);
 app.get('/get', getData.getData);
 app.put('/update/:id', getData.updateOne);
 app.delete('/delete/:id', getData.deleteOne); 

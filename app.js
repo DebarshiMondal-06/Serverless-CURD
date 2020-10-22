@@ -25,11 +25,11 @@ app.use(express.json());
 
 app.post('/create', getData.createData);
 app.post('/login', getData.login);
-app.use(getData.protect);
-app.get('/getOne/:id', getData.getOneData);
-app.get('/get', getData.getData);
-app.put('/update/:id', getData.updateOne);
-app.delete('/delete/:id', getData.deleteOne); 
+app.use('/protect', getData.protect);
+app.get('/protect', getData.getData);
+app.get('/protect/getOne/:id', getData.getOneData);
+app.put('/protect/update/:id', getData.updateOne);
+app.delete('/protect/delete/:id', getData.deleteOne);
 
 // const port = process.env.PORT_NO || 8000;
 // app.listen(port, () => {

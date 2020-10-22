@@ -130,7 +130,7 @@ exports.protect = async (req, res, next) => {
     if (!decode) {
       return res.status(400).json({ message: 'Login Failed! Try Again' });
     }
-    res.header('x-api-key', 'TfMU1KFi7o2Ndjdj45rWP4T6HYJrBdn21BSAUUyk');
+    res.header('x-api-key', 'KQSTuzLX7Y27EH4TsvyyS8XUJJ1Zpntw5kg1HuLr');
     next();
   } catch (error) {
     res.status(400).json({

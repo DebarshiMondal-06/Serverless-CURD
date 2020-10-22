@@ -11,23 +11,23 @@ functions:
     handler: app.curdFunction
     events: 
       - http: 
-          path: /get
-          method: GET
+          path: /protect
+          method: get
           cors: true
       - http: 
-          path: /getOne/{id}
+          path: /protect/getOne/{id}
           method: get
           cors: true
       - http: 
           path: /create
-          method: POST
-          cors: 
+          method: post
+          cors: true
       - http: 
-          path: /delete/{id}
+          path: /protect/delete/{id}
           method: delete
           cors: true
       - http: 
-          path: /update/{id}
+          path: /protect/update/{id}
           method: put
           cors: true
       - http:
